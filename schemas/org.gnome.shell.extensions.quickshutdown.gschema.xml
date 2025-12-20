@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.quickshutdown" path="/org/gnome/shell/extensions/quickshutdown/">
+    <key name="use-red-style" type="b">
+      <default>false</default>
+      <summary>activate red button styling</summary>
+      <description>colors the shutdown button red when active</description>
+    </key>
+  </schema>
+</schemalist>

@@ -4,24 +4,32 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
-export default class QuickShutDownButton extends Extension {
+export default class QuickShutdownButton extends Extension {
     enable() {
+        //to enable a settings dialog 
+        this._settings = this.getSettings();
         this._actions = SystemActions.getDefault();
+        //the new button 
         this._button = new St.Bin({
-            style_class: 'panel-button quick-shutdown-button',
             reactive: true,
             can_focus: true,
             track_hover: true
         });
-
-        this._button.set_child(new St.Icon({
+        //icon for the button
+        this._icon = new St.Icon({
             icon_name: 'system-shutdown-symbolic',
-            style_class: 'system-status-icon quick-shutdown-icon'
-        }));
+            style_class: 'system-status-icon'
+        });
+        this._button.set_child(this._icon);
 
+        // load css on start
+        this._updateStyle();
+
+        // update styling when settings are changed
+        this._settings.connect('changed::use-red-style', () => this._updateStyle());
         this._button.connect('button-release-event', (actor, event) => {
-            if (event.get_button() === 1) { 
-                this._triggerShutdown();
+            if (event.get_button() === 1) {
+                this._actions.activatePowerOff();
                 return Clutter.EVENT_STOP;
             }
             return Clutter.EVENT_PROPAGATE;
@@ -30,18 +38,20 @@ export default class QuickShutDownButton extends Extension {
         Main.panel._rightBox.add_child(this._button);
     }
 
-    _triggerShutdown() {
-        if (this._actions) {
-            this._actions.activatePowerOff();
+    _updateStyle() {
+        const useRed = this._settings.get_boolean('use-red-style');
+        
+        // set dynamic classes
+        if (useRed) {
+            this._button.style_class = 'panel-button quick-shutdown-button red-style';
+        } else {
+            this._button.style_class = 'panel-button quick-shutdown-button';
         }
     }
 
     disable() {
-        if (this._button) {
-            Main.panel._rightBox.remove_child(this._button);
-            this._button.destroy();
-            this._button = null;
-        }
+        this._button?.destroy();
+        this._settings = null;
         this._actions = null;
     }
 }

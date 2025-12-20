@@ -2,6 +2,7 @@
   "name": "Quick Shutdown",
   "description": "Add shutdown button to the top panel",
   "uuid": "quickshutdownbutton@feelfree2useit.outlook.com",
-  "url": "https://github.com/feelfree2useit/quick-shutdown-4-panel/",
+  "url": "https://github.com/feelfree2useit/quickshutdownbutton",
+  "settings-schema": "org.gnome.shell.extensions.quickshutdown",
   "shell-version": ["48", "49"]
 }
