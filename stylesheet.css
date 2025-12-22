@@ -2,6 +2,12 @@
     padding: 0 8px;
 }
 
+/* Hide the standard shutdown icon in quick settings */
+.quick-settings-power-item {
+    display: none;
+}
+
+/* Settings for the red style of the button */
 .red-style {
     padding: 0 8px;
     background-color: rgb(119, 14, 3); 
