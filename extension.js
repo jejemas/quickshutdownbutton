@@ -51,6 +51,8 @@ export default class QuickShutdownButton extends Extension {
 
     disable() {
         this._button?.destroy();
+        this._icon?.destroy();
+        this._icon = null;
         this._settings = null;
         this._actions = null;
     }
