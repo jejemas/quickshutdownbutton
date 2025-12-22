@@ -25,6 +25,14 @@ export default class QuickShutdownButton extends Extension {
         // load css on start
         this._updateStyle();
 
+        // hide the power icon if visible 
+        // access to quick settings area
+        const quickSettings = Main.panel.statusArea.quickSettings;
+        if(quickSettings._power) {
+            this.originalPowerVisible = quickSettings._power.visible;
+            quickSettings._power.visible = false;
+        }
+
         // update styling when settings are changed
         this._settings.connect('changed::use-red-style', () => this._updateStyle());
         this._button.connect('button-release-event', (actor, event) => {
@@ -40,7 +48,6 @@ export default class QuickShutdownButton extends Extension {
 
     _updateStyle() {
         const useRed = this._settings.get_boolean('use-red-style');
-        
         // set dynamic classes
         if (useRed) {
             this._button.style_class = 'panel-button quick-shutdown-button red-style';
@@ -55,5 +62,10 @@ export default class QuickShutdownButton extends Extension {
         this._icon = null;
         this._settings = null;
         this._actions = null;
+        // get the original power icon back
+        const quickSettings = Main.panel.statusArea.quickSettings;
+        if (quickSettings._power) {
+        quickSettings._power.visible = this._originalPowerVisible ?? true;
+        }
     }
 }

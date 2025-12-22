@@ -2,10 +2,11 @@
     padding: 0 8px;
 }
 
-/* Hide the standard shutdown icon in quick settings */
+/* Hide the standard shutdown icon in quick settings
 .quick-settings-power-item {
     display: none;
 }
+*/
 
 /* Settings for the red style of the button */
 .red-style {
